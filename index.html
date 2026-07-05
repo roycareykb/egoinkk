@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ego Inkk — Tattoo Studio, Chicago</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#070605;
+    --ink:#100D0A;
+    --panel:#15110C;
+    --gold:#C8A24A;
+    --gold-bright:#EAC971;
+    --gold-deep:#8a6f2e;
+    --white:#F4EFE6;
+    --red:#C5302B;
+    --red-deep:#8E1F1B;
+    --muted:rgba(244,239,230,0.52);
+    --line:rgba(200,162,74,0.22);
+    --maxw:1180px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  html{scroll-behavior:smooth}
+
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Jost',sans-serif;
+    font-weight:300;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* fine grain + vignette over the blackout */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(197,48,43,0.06), transparent 55%),
+      radial-gradient(100% 100% at 50% 100%, rgba(0,0,0,0.6), transparent 60%);
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+  a{color:inherit;text-decoration:none}
+
+  .gold-text{
+    background:linear-gradient(180deg,var(--gold-bright) 0%,var(--gold) 42%,var(--gold-deep) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px;
+    transition:background .4s ease, padding .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  nav.scrolled{
+    background:rgba(7,6,5,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:12px 28px;
+  }
+  .brand{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    letter-spacing:.18em;
+    font-size:1.05rem;
+    text-transform:uppercase;
+  }
+  .nav-right{display:flex;align-items:center;gap:22px}
+  .nav-links{display:flex;gap:26px;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .nav-links a{transition:color .25s}
+  .nav-links a:hover{color:var(--gold-bright)}
+  .ig-icon{display:inline-flex;color:var(--muted);transition:color .25s}
+  .ig-icon:hover{color:var(--gold-bright)}
+
+  .btn-book{
+    font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+    padding:11px 22px;
+    border:1px solid var(--gold);
+    color:var(--gold-bright);
+    transition:all .3s ease;
+    white-space:nowrap;
+  }
+  .btn-book:hover{background:var(--gold);color:var(--black);box-shadow:0 0 26px rgba(200,162,74,.3)}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;
+    position:relative;
+    padding:120px 28px 80px;
+  }
+  .hero-eyebrow{
+    font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--muted);
+    margin-bottom:34px;
+    opacity:0;animation:rise 1s ease .2s forwards;
+  }
+  .hero-eyebrow .dot{color:var(--red)}
+  .hero-title{
+    font-family:'Cinzel',serif;
+    font-weight:900;
+    line-height:.94;
+    letter-spacing:.04em;
+    font-size:clamp(3.4rem,13vw,9.5rem);
+    text-transform:uppercase;
+    opacity:0;animation:rise 1.1s ease .35s forwards;
+  }
+  .hero-title .ink{display:block;position:relative}
+  .hero-rule{
+    width:0;height:2px;margin:30px auto 0;
+    background:linear-gradient(90deg,transparent,var(--red),transparent);
+    animation:grow 1.1s ease 1s forwards;
+  }
+  .hero-sub{
+    margin-top:30px;max-width:520px;
+    color:var(--muted);font-size:1.02rem;font-weight:300;
+    opacity:0;animation:rise 1s ease .7s forwards;
+  }
+  .hero-cta{
+    margin-top:44px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+    opacity:0;animation:rise 1s ease .9s forwards;
+  }
+  .cta-primary{
+    font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;
+    padding:16px 34px;background:var(--gold);color:var(--black);font-weight:500;
+    transition:all .3s ease;
+  }
+  .cta-primary:hover{background:var(--gold-bright);box-shadow:0 0 30px rgba(200,162,74,.35);transform:translateY(-2px)}
+  .cta-ghost{
+    font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;
+    padding:16px 34px;border:1px solid var(--line);color:var(--white);
+    transition:all .3s ease;
+  }
+  .cta-ghost:hover{border-color:var(--gold);color:var(--gold-bright)}
+
+  .scroll-hint{
+    position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+    font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    opacity:0;animation:rise 1s ease 1.3s forwards;
+  }
+  .scroll-hint .bar{width:1px;height:34px;background:linear-gradient(var(--gold),transparent);animation:pulse 2s ease infinite}
+
+  /* ---------- SECTIONS ---------- */
+  main{position:relative}
+
+  .section{padding:120px 0;position:relative}
+  .marker{
+    display:flex;align-items:center;gap:18px;
+    margin-bottom:46px;
+  }
+  .marker .num{
+    font-family:'Cinzel',serif;font-weight:700;font-size:.95rem;letter-spacing:.1em;
+    width:54px;height:54px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--gold);border-radius:50%;
+    background:var(--black);
+    color:var(--gold-bright);
+  }
+  .marker .label{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted)}
+  .sec-title{
+    font-family:'Cinzel',serif;font-weight:600;
+    font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;letter-spacing:.02em;
+    margin-bottom:26px;
+  }
+
+  /* I. ARTIST */
+  .artist-grid{display:grid;grid-template-columns:280px 1fr;gap:56px;align-items:start}
+  .portrait-circle{
+    width:280px;height:280px;border-radius:50%;
+    background:linear-gradient(135deg,var(--panel),var(--ink));
+    border:1px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .portrait-circle::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(80% 60% at 30% 20%,rgba(197,48,43,.14),transparent 60%);
+  }
+  .portrait-circle .ph{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,239,230,0.3);z-index:2}
+  .portrait-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .artist-body{max-width:70ch}
+  .artist-body p{color:var(--muted);margin-bottom:20px;max-width:62ch}
+  .artist-body .lead{color:var(--white);font-size:1.18rem;font-weight:300;line-height:1.5}
+  .pull{color:var(--gold-bright)}
+  .creds{
+    list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:22px 26px;
+    margin-top:38px;padding-top:32px;border-top:1px solid var(--line);
+  }
+  .creds li{
+    display:flex;flex-direction:column;gap:5px;
+    font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  .creds li span{
+    font-family:'Cinzel',serif;font-weight:700;color:var(--gold-bright);
+    font-size:1.5rem;letter-spacing:.03em;
+  }
+
+  /* II. STYLE */
+  .style-intro{max-width:60ch;color:var(--muted);margin-bottom:54px;font-size:1.05rem}
+  .style-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .style-card{
+    border:1px solid var(--line);
+    padding:34px 30px;
+    background:linear-gradient(180deg,rgba(21,17,12,0.6),transparent);
+    transition:border-color .35s ease, transform .35s ease;
+  }
+  .style-card:hover{border-color:var(--gold);transform:translateY(-4px)}
+  .style-card .cnum{font-family:'Cinzel',serif;color:var(--gold);font-size:.9rem;letter-spacing:.1em;margin-bottom:18px}
+  .style-card h3{font-family:'Jost',sans-serif;font-weight:500;font-size:1.3rem;margin-bottom:12px;letter-spacing:.02em}
+  .style-card p{color:var(--muted);font-size:.94rem}
+
+  /* III. GALLERY */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+  .chip{
+    font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+    padding:9px 20px;border:1px solid var(--line);background:transparent;color:var(--muted);
+    cursor:pointer;transition:all .3s ease;
+  }
+  .chip:hover{color:var(--gold-bright);border-color:var(--gold)}
+  .chip.active{background:var(--gold);color:var(--black);border-color:var(--gold)}
+
+  .gallery{column-count:3;column-gap:16px}
+  .tile{
+    display:block;width:100%;margin:0 0 16px;padding:0;border:1px solid var(--line);
+    background:linear-gradient(135deg,var(--panel),var(--ink));
+    position:relative;overflow:hidden;cursor:pointer;
+    break-inside:avoid;
+    transition:transform .4s ease, opacity .4s ease;
+    color:inherit;font:inherit;
+  }
+  .tile.h1{height:230px}
+  .tile.h2{height:310px}
+  .tile.h3{height:400px}
+  .tile span{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(244,239,230,0.28);z-index:2;
+  }
+  .tile::after{
+    content:"";position:absolute;inset:0;
+    box-shadow:inset 0 0 0 0 var(--gold);
+    transition:box-shadow .4s ease, background .4s ease;
+  }
+  .tile:hover{transform:scale(1.012)}
+  .tile:hover::after{box-shadow:inset 0 0 0 2px var(--gold);background:radial-gradient(70% 70% at 50% 50%,transparent,rgba(197,48,43,.10))}
+  .tile.hidden{display:none}
+  .gallery-note{margin-top:30px;text-align:center;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .gallery-note a{color:var(--gold-bright);border-bottom:1px solid var(--line);padding-bottom:2px}
+
+  /* LIGHTBOX */
+  .lightbox{
+    position:fixed;inset:0;z-index:100;
+    display:flex;align-items:center;justify-content:center;gap:18px;padding:40px;
+    background:rgba(3,3,2,0.94);backdrop-filter:blur(6px);
+    opacity:0;visibility:hidden;transition:opacity .35s ease, visibility .35s ease;
+  }
+  .lightbox.open{opacity:1;visibility:visible}
+  .lb-stage{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:560px;width:100%}
+  .lb-image{
+    width:100%;aspect-ratio:4/5;max-height:72vh;
+    background:linear-gradient(135deg,var(--panel),var(--ink));
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .lb-image::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 30% 20%,rgba(197,48,43,.12),transparent 60%)}
+  .lb-image span{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(244,239,230,0.32);z-index:2}
+  .lb-caption{text-align:center;display:flex;flex-direction:column;gap:8px}
+  .lb-title{font-family:'Cinzel',serif;font-weight:700;font-size:1.2rem;letter-spacing:.06em;text-transform:uppercase}
+  .lb-meta{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  .lb-close{
+    position:absolute;top:24px;right:30px;background:none;border:none;color:var(--white);
+    font-size:2rem;line-height:1;cursor:pointer;transition:color .25s;
+  }
+  .lb-close:hover{color:var(--gold-bright)}
+  .lb-nav{
+    background:none;border:1px solid var(--line);color:var(--white);
+    width:50px;height:50px;flex:none;font-size:1.6rem;line-height:1;cursor:pointer;
+    transition:all .3s ease;
+  }
+  .lb-nav:hover{border-color:var(--gold);color:var(--gold-bright)}
+  @media(max-width:880px){
+    .gallery{column-count:2}
+    .lightbox{padding:20px;gap:8px}
+    .lb-nav{width:42px;height:42px;font-size:1.3rem}
+  }
+
+  /* BOOK CTA */
+  .book{
+    text-align:center;padding:130px 28px;position:relative;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:radial-gradient(90% 120% at 50% 0%,rgba(197,48,43,0.07),transparent 60%);
+  }
+  .book .eyebrow{font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
+  .book h2{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(2.2rem,6vw,4rem);line-height:1.04;margin-bottom:24px}
+  .book p{color:var(--muted);max-width:46ch;margin:0 auto 16px}
+  .book-rates{
+    font-family:'Cinzel',serif;font-weight:600;letter-spacing:.06em;
+    color:var(--gold-bright)!important;font-size:.95rem;
+    margin-bottom:40px!important;
+  }
+  .book .cta-primary{display:inline-block}
+
+  /* FOOTER */
+  footer{padding:64px 28px 50px;text-align:center;position:relative;z-index:2}
+  .foot-brand{font-family:'Cinzel',serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:1.1rem;margin-bottom:18px}
+  .foot-meta{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+  .foot-meta a:hover{color:var(--gold-bright)}
+  .foot-fine{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,239,230,0.3)}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease, transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  @keyframes grow{to{width:120px}}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  @media(max-width:880px){
+    .artist-grid{grid-template-columns:1fr;gap:28px}
+    .portrait-circle{width:180px;height:180px}
+    .style-grid{grid-template-columns:repeat(2,1fr)}
+    .gallery{grid-template-columns:repeat(2,1fr)}
+    .nav-links{display:none}
+  }
+  @media(max-width:760px){
+    .book,.section{padding-left:0;padding-right:0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    .hero-eyebrow,.hero-title,.hero-sub,.hero-cta,.scroll-hint{opacity:1}
+    .hero-rule{width:120px}
+  }
+
+  /* ---------- PHONE ---------- */
+  @media(max-width:600px){
+    .wrap{padding:0 22px}
+    header.hero{padding:104px 22px 64px}
+    .hero-eyebrow{margin-bottom:26px;letter-spacing:.3em}
+    .hero-cta{flex-direction:column;width:100%;max-width:320px}
+    .hero-cta a{width:100%;text-align:center}
+    .section{padding:74px 0}
+    .marker{margin-bottom:34px;gap:14px}
+    .sec-title{margin-bottom:20px}
+    .book{padding:88px 22px}
+    .filters{gap:8px;margin-bottom:26px}
+    .chip{padding:12px 18px}
+    .tile.h1{height:200px}
+    .tile.h2{height:270px}
+    .tile.h3{height:340px}
+    .foot-meta{gap:18px}
+
+    /* lightbox: give the image full width, float the arrows over the screen edges */
+    .lightbox{padding:18px;gap:0}
+    .lb-stage{max-width:100%}
+    .lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(7,6,5,0.72);width:46px;height:46px;z-index:5}
+    .lb-prev{left:10px}
+    .lb-next{right:10px}
+    .lb-close{top:16px;right:18px}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#top" class="brand gold-text">Ego Inkk</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#artist">Artist</a>
+      <a href="#style">Style</a>
+      <a href="#work">Work</a>
+    </div>
+    <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener" class="ig-icon" aria-label="Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="#book" class="btn-book">Book</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-eyebrow">Chicago, IL <span class="dot">&bull;</span> By Appointment</div>
+  <h1 class="hero-title">
+    <span class="gold-text">Ego</span>
+    <span class="ink gold-text">Inkk</span>
+  </h1>
+  <div class="hero-rule"></div>
+  <p class="hero-sub">Black and gray, cover-ups, and realism that reads on every skin tone. A private Chicago studio, one artist, one story at a time.</p>
+  <div class="hero-cta">
+    <a href="https://tally.so/r/RGl0MJ" target="_blank" rel="noopener" class="cta-primary">Book a Session</a>
+    <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener" class="cta-ghost">View on Instagram</a>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><span class="bar"></span></div>
+</header>
+
+<main>
+
+  <!-- I. THE ARTIST -->
+  <section class="section" id="artist">
+    <div class="wrap reveal">
+      <div class="marker">
+        <span class="num">I</span>
+        <span class="label">The Artist</span>
+      </div>
+      <div class="artist-grid">
+        <div class="portrait-circle"><span class="ph">Portrait</span></div>
+        <div class="artist-body">
+          <h2 class="sec-title">The hand behind the ink.</h2>
+          <p class="lead">Ego Inkk has been tattooing in Chicago since 2016. Over a thousand pieces and counting.</p>
+          <p>He apprenticed at 7 Shades of Gray in Oak Park and built his name on black and gray: work that reads clean on every skin tone, with real care for tattooing melanated skin. Cover-ups are where he shows out, redirecting the eye and turning a piece you regret into one you want to wear proud.</p>
+          <p>Every session is one on one in a private, climate-controlled studio. <span class="pull">The work is personal, and it is built to last.</span></p>
+          <ul class="creds">
+            <li><span>2016</span>Tattooing since</li>
+            <li><span>1,000+</span>Pieces made</li>
+            <li><span>Licensed</span>Pathogens certified</li>
+            <li><span>Private</span>Chicago studio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- II. THE STYLE -->
+  <section class="section" id="style">
+    <div class="wrap reveal">
+      <div class="marker">
+        <span class="num">II</span>
+        <span class="label">The Style</span>
+      </div>
+      <h2 class="sec-title">Black and gray is home base.</h2>
+      <p class="style-intro">Versatile across realism and color when a piece calls for it, but black and gray is the strong suit and cover-ups are where the real magic happens.</p>
+      <div class="style-grid">
+        <div class="style-card">
+          <div class="cnum">i</div>
+          <h3>Black &amp; Gray</h3>
+          <p>The strong suit. Done right, it reads on everybody, from the lightest skin to the darkest. It all comes down to understanding how the skin works.</p>
+        </div>
+        <div class="style-card">
+          <div class="cnum">ii</div>
+          <h3>Cover-Ups</h3>
+          <p>Where he shows out. A cover-up redirects the eye and turns a piece you regret into one you want to show off.</p>
+        </div>
+        <div class="style-card">
+          <div class="cnum">iii</div>
+          <h3>Realism &amp; Color</h3>
+          <p>Versatile with realism and color, using opaques that hold up and show up on melanated skin.</p>
+        </div>
+        <div class="style-card">
+          <div class="cnum">iv</div>
+          <h3>Trash Polka</h3>
+          <p>Bold red and black graphic realism. Abstract slashes and splatter collide with sharp portrait work for something loud and unmistakable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- III. THE WORK -->
+  <section class="section" id="work">
+    <div class="wrap reveal">
+      <div class="marker">
+        <span class="num">III</span>
+        <span class="label">The Work</span>
+      </div>
+      <h2 class="sec-title">Selected pieces.</h2>
+
+      <div class="filters" role="tablist" aria-label="Filter work by style">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="black">Black &amp; Gray</button>
+        <button class="chip" data-filter="cover">Cover-Ups</button>
+        <button class="chip" data-filter="realism">Realism</button>
+        <button class="chip" data-filter="polka">Trash Polka</button>
+      </div>
+
+      <div class="gallery" id="gallery">
+        <button class="tile h3" data-cat="black" data-title="Piece 01" data-meta="Black &amp; Gray &bull; Forearm"><span>Piece 01</span></button>
+        <button class="tile h1" data-cat="realism" data-title="Piece 02" data-meta="Realism &bull; Shoulder"><span>Piece 02</span></button>
+        <button class="tile h2" data-cat="cover" data-title="Piece 03" data-meta="Cover-Up &bull; Ribs"><span>Piece 03</span></button>
+        <button class="tile h2" data-cat="polka" data-title="Piece 04" data-meta="Trash Polka &bull; Chest"><span>Piece 04</span></button>
+        <button class="tile h3" data-cat="cover" data-title="Piece 05" data-meta="Cover-Up &bull; Upper Arm"><span>Piece 05</span></button>
+        <button class="tile h1" data-cat="realism" data-title="Piece 06" data-meta="Realism &bull; Hand"><span>Piece 06</span></button>
+        <button class="tile h2" data-cat="black" data-title="Piece 07" data-meta="Black &amp; Gray &bull; Back"><span>Piece 07</span></button>
+        <button class="tile h1" data-cat="polka" data-title="Piece 08" data-meta="Trash Polka &bull; Forearm"><span>Piece 08</span></button>
+      </div>
+      <p class="gallery-note">Full portfolio lives on <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener">Instagram</a></p>
+    </div>
+  </section>
+</main>
+
+<!-- BOOK -->
+<section class="book" id="book">
+  <div class="wrap reveal">
+    <div class="eyebrow">Ready when you are</div>
+    <h2 class="gold-text">Book Your Session</h2>
+    <p>Tell us your idea, placement, and size. We will get back to you to lock in a date.</p>
+    <p class="book-rates">Sessions start at $100/hr &bull; Small pieces from $80</p>
+    <a href="https://tally.so/r/RGl0MJ" target="_blank" rel="noopener" class="cta-primary" id="book-link">Open Booking Form</a>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous piece">&#8249;</button>
+  <div class="lb-stage">
+    <div class="lb-image" id="lbImage"><span id="lbPlaceholder">Piece</span></div>
+    <div class="lb-caption">
+      <span class="lb-title gold-text" id="lbTitle">Piece</span>
+      <span class="lb-meta" id="lbMeta">Style &bull; Placement</span>
+    </div>
+  </div>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next piece">&#8250;</button>
+</div>
+
+<footer>
+  <div class="foot-brand gold-text">Ego Inkk</div>
+  <div class="foot-meta">
+    <span>Chicago, IL</span>
+    <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener">Instagram</a>
+    <a href="#book">Book</a>
+  </div>
+  <div class="foot-fine">&copy; 2026 Ego Inkk. All rights reserved.</div>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40)});
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ---- Gallery filtering ---- */
+  const chips=document.querySelectorAll('.chip');
+  const tiles=Array.from(document.querySelectorAll('.tile'));
+  chips.forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      const f=chip.dataset.filter;
+      tiles.forEach(t=>{
+        const show = f==='all' || t.dataset.cat===f;
+        t.classList.toggle('hidden',!show);
+      });
+    });
+  });
+
+  /* ---- Lightbox ---- */
+  const lb=document.getElementById('lightbox');
+  const lbTitle=document.getElementById('lbTitle');
+  const lbMeta=document.getElementById('lbMeta');
+  const lbPlaceholder=document.getElementById('lbPlaceholder');
+  let current=0;
+
+  function visibleTiles(){return tiles.filter(t=>!t.classList.contains('hidden'))}
+
+  function fill(tile){
+    lbTitle.innerHTML=tile.dataset.title;
+    lbMeta.innerHTML=tile.dataset.meta;
+    lbPlaceholder.innerHTML=tile.dataset.title;
+  }
+  function openLb(tile){
+    const list=visibleTiles();
+    current=list.indexOf(tile);
+    fill(tile);
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeLb(){
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  function step(dir){
+    const list=visibleTiles();
+    current=(current+dir+list.length)%list.length;
+    fill(list[current]);
+  }
+
+  tiles.forEach(t=>t.addEventListener('click',()=>openLb(t)));
+  document.getElementById('lbClose').addEventListener('click',closeLb);
+  document.getElementById('lbPrev').addEventListener('click',()=>step(-1));
+  document.getElementById('lbNext').addEventListener('click',()=>step(1));
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')closeLb();
+    if(e.key==='ArrowLeft')step(-1);
+    if(e.key==='ArrowRight')step(1);
+  });
+</script>
+</body>
+</html>
