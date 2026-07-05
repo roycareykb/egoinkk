@@ -4,6 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ego Inkk — Tattoo Studio, Chicago</title>
+<meta name="description" content="Ego Inkk is a Chicago tattoo artist specializing in black and gray, cover-ups, realism, and trash polka. Private studio, by appointment. Book a session.">
+
+<!-- Social share preview (shown when the link is pasted into Instagram, texts, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ego Inkk — Tattoo Studio, Chicago">
+<meta property="og:description" content="Black and gray, cover-ups, and realism that reads on every skin tone. Private Chicago studio, by appointment.">
+<meta property="og:url" content="https://roycareykb.github.io/egoinkk/">
+<meta property="og:image" content="https://roycareykb.github.io/egoinkk/social-preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ego Inkk — Tattoo Studio, Chicago">
+<meta name="twitter:description" content="Black and gray, cover-ups, and realism that reads on every skin tone. Private Chicago studio, by appointment.">
+<meta name="twitter:image" content="https://roycareykb.github.io/egoinkk/social-preview.jpg">
+
+<!-- Gold "E" favicon (browser tab icon), no separate file needed -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070605'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='bold' fill='%23EAC971' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+
+<!-- Local business info to help Ego Inkk show up in Chicago tattoo searches -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TattooParlor",
+  "name": "Ego Inkk",
+  "description": "Chicago tattoo artist specializing in black and gray, cover-ups, realism, and trash polka. Private studio, by appointment.",
+  "url": "https://roycareykb.github.io/egoinkk/",
+  "image": "https://roycareykb.github.io/egoinkk/social-preview.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Chicago",
+    "addressRegion": "IL",
+    "addressCountry": "US"
+  },
+  "areaServed": "Chicago, IL",
+  "priceRange": "$$",
+  "sameAs": ["https://www.instagram.com/ego_tyg/"]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -274,6 +311,27 @@
   .gallery-note{margin-top:30px;text-align:center;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
   .gallery-note a{color:var(--gold-bright);border-bottom:1px solid var(--line);padding-bottom:2px}
 
+  /* IV. THE SPACE */
+  .space-intro{max-width:60ch;color:var(--muted);margin-bottom:44px;font-size:1.05rem}
+  .studio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .studio-tile{
+    aspect-ratio:4/3;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--panel),var(--ink));
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .studio-tile.wide{grid-column:1 / -1;aspect-ratio:16/7}
+  .studio-tile span{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(244,239,230,0.28);z-index:2}
+  .studio-tile::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(70% 60% at 30% 20%,rgba(197,48,43,.10),transparent 60%);
+  }
+  .studio-tile img{width:100%;height:100%;object-fit:cover}
+  @media(max-width:600px){
+    .studio-tile{aspect-ratio:3/2}
+    .studio-tile.wide{aspect-ratio:3/2}
+  }
+
   /* LIGHTBOX */
   .lightbox{
     position:fixed;inset:0;z-index:100;
@@ -397,6 +455,7 @@
       <a href="#artist">Artist</a>
       <a href="#style">Style</a>
       <a href="#work">Work</a>
+      <a href="#space">Space</a>
     </div>
     <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener" class="ig-icon" aria-label="Instagram">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -414,7 +473,7 @@
   <div class="hero-rule"></div>
   <p class="hero-sub">Black and gray, cover-ups, and realism that reads on every skin tone. A private Chicago studio, one artist, one story at a time.</p>
   <div class="hero-cta">
-    <a href="https://tally.so/r/RGl0MJ" target="_blank" rel="noopener" class="cta-primary">Book a Session</a>
+    <a href="book.html" target="_blank" rel="noopener" class="cta-primary">Book a Session</a>
     <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener" class="cta-ghost">View on Instagram</a>
   </div>
   <div class="scroll-hint"><span>Scroll</span><span class="bar"></span></div>
@@ -511,6 +570,23 @@
       <p class="gallery-note">Full portfolio lives on <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener">Instagram</a></p>
     </div>
   </section>
+
+  <!-- IV. THE SPACE -->
+  <section class="section" id="space">
+    <div class="wrap reveal">
+      <div class="marker">
+        <span class="num">IV</span>
+        <span class="label">The Space</span>
+      </div>
+      <h2 class="sec-title">A private studio, just for you.</h2>
+      <p class="space-intro">Every session is one on one in a private, climate-controlled studio. Clean, comfortable, and yours for the appointment. No crowds, no rush.</p>
+      <div class="studio-grid">
+        <div class="studio-tile wide"><span>Studio Photo</span></div>
+        <div class="studio-tile"><span>Studio Photo</span></div>
+        <div class="studio-tile"><span>Studio Photo</span></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- BOOK -->
@@ -520,7 +596,7 @@
     <h2 class="gold-text">Book Your Session</h2>
     <p>Tell us your idea, placement, and size. We will get back to you to lock in a date.</p>
     <p class="book-rates">Sessions start at $100/hr &bull; Small pieces from $80</p>
-    <a href="https://tally.so/r/RGl0MJ" target="_blank" rel="noopener" class="cta-primary" id="book-link">Open Booking Form</a>
+    <a href="book.html" target="_blank" rel="noopener" class="cta-primary" id="book-link">Open Booking Form</a>
   </div>
 </section>
 
