@@ -296,6 +296,7 @@
   .tile.h1{height:230px}
   .tile.h2{height:310px}
   .tile.h3{height:400px}
+  .tile img{width:100%;height:100%;object-fit:cover;display:block}
   .tile span{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(244,239,230,0.28);z-index:2;
@@ -342,14 +343,14 @@
   .lightbox.open{opacity:1;visibility:visible}
   .lb-stage{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:560px;width:100%}
   .lb-image{
-    width:100%;aspect-ratio:4/5;max-height:72vh;
+    width:100%;
     background:linear-gradient(135deg,var(--panel),var(--ink));
     border:1px solid var(--line);
     display:flex;align-items:center;justify-content:center;
     position:relative;overflow:hidden;
   }
-  .lb-image::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 30% 20%,rgba(197,48,43,.12),transparent 60%)}
-  .lb-image span{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(244,239,230,0.32);z-index:2}
+  .lb-image::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 30% 20%,rgba(197,48,43,.12),transparent 60%);pointer-events:none}
+  .lb-image img{width:auto;height:auto;max-width:100%;max-height:72vh;object-fit:contain;position:relative;z-index:1;display:block}
   .lb-caption{text-align:center;display:flex;flex-direction:column;gap:8px}
   .lb-title{font-family:'Cinzel',serif;font-weight:700;font-size:1.2rem;letter-spacing:.06em;text-transform:uppercase}
   .lb-meta{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
@@ -489,7 +490,7 @@
         <span class="label">The Artist</span>
       </div>
       <div class="artist-grid">
-        <div class="portrait-circle"><span class="ph">Portrait</span></div>
+        <div class="portrait-circle"><img src="artist-portrait.jpg" alt="Ego Inkk, tattoo artist, at work"></div>
         <div class="artist-body">
           <h2 class="sec-title">The hand behind the ink.</h2>
           <p class="lead">Ego Inkk has been tattooing in Chicago since 2016. Over a thousand pieces and counting.</p>
@@ -552,20 +553,21 @@
       <div class="filters" role="tablist" aria-label="Filter work by style">
         <button class="chip active" data-filter="all">All</button>
         <button class="chip" data-filter="black">Black &amp; Gray</button>
-        <button class="chip" data-filter="cover">Cover-Ups</button>
         <button class="chip" data-filter="realism">Realism</button>
         <button class="chip" data-filter="polka">Trash Polka</button>
       </div>
 
       <div class="gallery" id="gallery">
-        <button class="tile h3" data-cat="black" data-title="Piece 01" data-meta="Black &amp; Gray &bull; Forearm"><span>Piece 01</span></button>
-        <button class="tile h1" data-cat="realism" data-title="Piece 02" data-meta="Realism &bull; Shoulder"><span>Piece 02</span></button>
-        <button class="tile h2" data-cat="cover" data-title="Piece 03" data-meta="Cover-Up &bull; Ribs"><span>Piece 03</span></button>
-        <button class="tile h2" data-cat="polka" data-title="Piece 04" data-meta="Trash Polka &bull; Chest"><span>Piece 04</span></button>
-        <button class="tile h3" data-cat="cover" data-title="Piece 05" data-meta="Cover-Up &bull; Upper Arm"><span>Piece 05</span></button>
-        <button class="tile h1" data-cat="realism" data-title="Piece 06" data-meta="Realism &bull; Hand"><span>Piece 06</span></button>
-        <button class="tile h2" data-cat="black" data-title="Piece 07" data-meta="Black &amp; Gray &bull; Back"><span>Piece 07</span></button>
-        <button class="tile h1" data-cat="polka" data-title="Piece 08" data-meta="Trash Polka &bull; Forearm"><span>Piece 08</span></button>
+        <button class="tile h3" data-cat="black" data-title="Praying Hands" data-meta="Black &amp; Gray &bull; Forearm"><img src="piece-01-praying-hands.jpg" alt="Praying hands tattoo, black and gray, forearm" loading="lazy"></button>
+        <button class="tile h1" data-cat="realism" data-title="Elephant" data-meta="Realism &amp; Color &bull; Shoulder"><img src="piece-02-elephant-color.jpg" alt="Color elephant tattoo, shoulder" loading="lazy"></button>
+        <button class="tile h2" data-cat="polka" data-title="Good Intentions" data-meta="Trash Polka &bull; Forearm"><img src="piece-03-trash-polka.jpg" alt="Trash polka style tattoo with red and black, forearm" loading="lazy"></button>
+        <button class="tile h3" data-cat="black" data-title="Water Carrier" data-meta="Black &amp; Gray &bull; Calf"><img src="piece-04-african-woman.jpg" alt="Black and gray tattoo of a woman carrying a vase, calf" loading="lazy"></button>
+        <button class="tile h2" data-cat="black" data-title="Lion" data-meta="Black &amp; Gray &bull; Forearm"><img src="piece-05-lion.jpg" alt="Black and gray lion with florals tattoo, forearm" loading="lazy"></button>
+        <button class="tile h3" data-cat="black" data-title="Guardian Angels" data-meta="Black &amp; Gray &bull; Forearm"><img src="piece-06-angels.jpg" alt="Black and gray guardian angels tattoo, forearm" loading="lazy"></button>
+        <button class="tile h1" data-cat="realism" data-title="Chef's Crest" data-meta="Realism &amp; Color &bull; Hand"><img src="piece-07-hand-crest.jpg" alt="Color crest tattoo on the hand" loading="lazy"></button>
+        <button class="tile h2" data-cat="black" data-title="Elephant &amp; Florals" data-meta="Black &amp; Gray &bull; Shoulder"><img src="piece-08-elephant-floral.jpg" alt="Black and gray elephant with florals tattoo, shoulder" loading="lazy"></button>
+        <button class="tile h2" data-cat="realism" data-title="Sea Turtle" data-meta="Realism &amp; Color &bull; Thigh"><img src="piece-09-turtle.jpg" alt="Color geometric sea turtle tattoo, thigh" loading="lazy"></button>
+        <button class="tile h3" data-cat="black" data-title="Roaring Bear" data-meta="Black &amp; Gray &bull; Upper Arm"><img src="piece-10-bear.jpg" alt="Black and gray roaring bear tattoo, upper arm" loading="lazy"></button>
       </div>
       <p class="gallery-note">Full portfolio lives on <a href="https://www.instagram.com/ego_tyg/" target="_blank" rel="noopener">Instagram</a></p>
     </div>
@@ -605,7 +607,7 @@
   <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
   <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous piece">&#8249;</button>
   <div class="lb-stage">
-    <div class="lb-image" id="lbImage"><span id="lbPlaceholder">Piece</span></div>
+    <div class="lb-image" id="lbImage"><img id="lbImg" src="" alt=""></div>
     <div class="lb-caption">
       <span class="lb-title gold-text" id="lbTitle">Piece</span>
       <span class="lb-meta" id="lbMeta">Style &bull; Placement</span>
@@ -652,7 +654,7 @@
   const lb=document.getElementById('lightbox');
   const lbTitle=document.getElementById('lbTitle');
   const lbMeta=document.getElementById('lbMeta');
-  const lbPlaceholder=document.getElementById('lbPlaceholder');
+  const lbImg=document.getElementById('lbImg');
   let current=0;
 
   function visibleTiles(){return tiles.filter(t=>!t.classList.contains('hidden'))}
@@ -660,7 +662,9 @@
   function fill(tile){
     lbTitle.innerHTML=tile.dataset.title;
     lbMeta.innerHTML=tile.dataset.meta;
-    lbPlaceholder.innerHTML=tile.dataset.title;
+    const img=tile.querySelector('img');
+    lbImg.src = img ? img.src : '';
+    lbImg.alt = img ? img.alt : tile.dataset.title;
   }
   function openLb(tile){
     const list=visibleTiles();
